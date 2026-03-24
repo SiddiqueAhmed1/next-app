@@ -7,28 +7,15 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  /*
-    GET /users
-    GET /users/:id
-    POST /users
-    PATCH /users/:id
-    DELETE /users/:id
-    */
-
-  @Get()
-  findByRole(@Query('role') role?: 'Admin' | 'Engineer' | 'Boss') {
-    if (role) {
-      return [{ role }];
-    }
-    return [{ id: 1, name: 'Siddique' }];
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @Get() // GET /users
-  findAll() {
-    return [{ id: 1, name: 'Abdur Rahim' }];
+  findAll(@Query('role') role?: 'Admin' | 'Engineer' | 'Intern') {
+    return this.usersService.findAll(role);
   }
 
   @Get('engineers') // GET /users/engineers
@@ -43,6 +30,6 @@ export class UsersController {
 
   @Get(':id') // GET /users/:id
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return { id, name: `siddique ${id}` };
+    return this.usersService.findOne(id);
   }
 }
