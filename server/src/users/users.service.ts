@@ -7,18 +7,12 @@ export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   // FIXME: find all user
-  findAll(role: 'ADMIN' | 'ENGINEER' | 'INTERN') {
-    if (role)
-      return this.databaseService.user.findMany({
-        where: {
-          role,
-        },
-      });
+  findAll() {
     return this.databaseService.user.findMany();
   }
 
   // TODO: find specific user
-  findOne(id?: number) {
+  findOne(id?: string) {
     if (id)
       return this.databaseService.user.findUnique({
         where: {
@@ -35,7 +29,7 @@ export class UsersService {
   }
 
   // FIXME: update user
-  update(id: number, updateUserDto: Prisma.UserUpdateInput) {
+  update(id: string, updateUserDto: Prisma.UserUpdateInput) {
     return this.databaseService.user.update({
       where: {
         id,
@@ -45,7 +39,7 @@ export class UsersService {
   }
 
   // // TODO:
-  delete(id: number) {
+  delete(id: string) {
     return this.databaseService.user.delete({
       where: {
         id,

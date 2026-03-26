@@ -7,7 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -18,8 +17,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get() // TODO: GET /users
-  findAll(@Query('role') role: 'ADMIN' | 'ENGINEER' | 'INTERN') {
-    return this.usersService.findAll(role);
+  findAll() {
+    return this.usersService.findAll();
   }
 
   @Post() // TODO: POST /users
@@ -29,19 +28,19 @@ export class UsersController {
 
   @Patch(':id') // FIXME: PATCH /user/:id
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body(ValidationPipe) updateUserDto: Prisma.UserUpdateInput,
   ) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id') // FIXME: DELETE /users/:id
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id') id: string) {
     return this.usersService.delete(id);
   }
 
   @Get(':id') //TODO: GET /users/:id
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 }
